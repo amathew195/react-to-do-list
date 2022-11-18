@@ -21,7 +21,7 @@ import EditableTodoList from "./EditableTodoList";
  * App -> TodoApp -> { TodoForm, EditableTodoList, TopToDo }
  */
 
-function TodoApp({ initialTodos }) {
+function TodoApp({ initialTodos = [] }) {
 
   const [todos, setTodos] = useState(initialTodos);
 
