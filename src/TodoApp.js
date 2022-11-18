@@ -11,6 +11,12 @@ import EditableTodoList from "./EditableTodoList";
  *
  * State:
  * - todos: array of [ todo, ... ]
+ *   Ex: {
+ *     id, - number
+ *     title, - string
+ *     description, - string
+ *     priority, - number
+ * }
  *
  * App -> TodoApp -> { TodoForm, EditableTodoList, TopToDo }
  */
@@ -23,22 +29,22 @@ function TodoApp({ initialTodos }) {
 
   /** add a new todo to list */
   function create(newTodo) {
-    let todo = { ...newTodo, id: uuid() };
+    const todo = { ...newTodo, id: uuid() };
     setTodos(todos => [...todos, todo]);
   }
 
   /** update a todo with updatedTodo */
   function update(updatedTodo) {
-    const idx = todos.findIndex(t => t.id === updatedTodo.id);
-    todos[idx] = updatedTodo;
-    setTodos([...todos]);
+    setTodos(todos => {
+      const idx = todos.findIndex(t => t.id === updatedTodo.id);
+      todos[idx] = updatedTodo;
+      return [...todos];
+    });
   }
 
   /** delete a todo by id */
   function remove(id) {
-    const idx = todos.findIndex(t => t.id === id);
-    todos.splice(idx, 1);
-    setTodos([...todos]);
+    setTodos(todos => todos.filter(t => t.id !== id));
   }
 
 
@@ -49,7 +55,7 @@ function TodoApp({ initialTodos }) {
 
         <div className="col-md-6">
           {todos.length > 0 ?
-            <EditableTodoList /> :
+            <EditableTodoList todos={todos} update={update} remove={remove}/> :
             <span className="text-muted">You have no todos.</span>
           }
         </div>
@@ -58,7 +64,7 @@ function TodoApp({ initialTodos }) {
           {todos.length !== 0 &&
             <section className="mb-4">
               <h3>Top Todo</h3>
-              <TopTodo />
+              <TopTodo todos={todos}/>
             </section>
           }
 

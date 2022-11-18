@@ -1,43 +1,34 @@
 import React, { useState } from "react";
 
+const defaultInitialFormData = { title: "", description: "", priority: 1 };
 
 /** Form for adding.
  *
  * Props:
- * - initialFormData (optional, specific to editing)
+ * - initialFormData
  * - handleSave: function to call in parent.
  *
- * State:
- * - formData (object)
- *   Ex: {
- *     title, - string
- *     description, - string
- *     priority, - number
- *   }
  * { TodoApp, EditableTodo } -> TodoForm
  */
 
-function TodoForm({
-  handleSave,
-  initialFormData = {title: "", description: "", priority: 1}
-}) {
-  const [formData, setFormData] = useState(initialFormData)
+function TodoForm({ initialFormData = defaultInitialFormData, handleSave }) {
+  const [formData, setFormData] = useState(initialFormData);
+
   /** Update form input. */
   function handleChange(evt) {
-    const { name, value } = evt.target;
-    setFormData(data =>({
-      ...data,
-      [name]:value
-    }))
+    const input = evt.target;
+    setFormData(formData => ({
+      ...formData,
+      [input.name]: input.value,
+    }));
   }
 
   /** Call parent function and clear form. */
   function handleSubmit(evt) {
     evt.preventDefault();
-    formData.priority = Number(formData.priority);
     handleSave(formData);
-    setFormData(initialFormData)
-   }
+    setFormData(initialFormData);
+  }
 
   return (
       <form className="NewTodoForm" onSubmit={handleSubmit}>
@@ -66,7 +57,7 @@ function TodoForm({
           />
         </div>
 
-        <div className="mb-3 d-flex justify-content-between">
+        <div className="mb-3">
           <div className="w-75 d-flex justify-content-between">
             <label htmlFor="newTodo-priority"
                    className="d-inline-flex">Priority:&nbsp;&nbsp;
@@ -82,7 +73,7 @@ function TodoForm({
               <option value={3}>Meh</option>
             </select>
           </div>
-          <button className="btn-primary rig btn btn-sm NewTodoForm-addBtn">
+          <button className="btn-primary btn btn-sm NewTodoForm-addBtn">
             Gø!
           </button>
         </div>
