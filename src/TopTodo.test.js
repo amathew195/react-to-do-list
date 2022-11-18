@@ -30,7 +30,7 @@ const top4 = {
   description: 'mock4',
 }
 
-const todos = [top1, top2, top3];
+const todos = [top1, top2, top3, top4];
 
 it("renders", function() {
   render(<TopTodo todos={todos}/>)
