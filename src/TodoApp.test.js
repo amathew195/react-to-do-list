@@ -16,7 +16,6 @@ it("adds to-do", function () {
   const descriptionInput = container.querySelector("#newTodo-description");
 
   const submitBtn = queryByText("Gø!");
-  debug(container)
 
   expect(container).toContainHTML("You have no todos.")
 
@@ -25,9 +24,19 @@ it("adds to-do", function () {
   fireEvent.change(descriptionInput, { target: { value: "Test description" } });
   fireEvent.click(submitBtn);
 
-  const toDosSection = container.querySelector(".EditableTodoList")
+  const toDos = container.querySelectorAll(".EditableTodo");
+
+  expect(toDos.length).toEqual(1);
+
+  const toDosSection = container.querySelector(".EditableTodoList");
 
   expect(toDosSection).toContainHTML("(priority: 1)")
   expect(toDosSection).toContainHTML("Test task")
   expect(toDosSection).toContainHTML("Test description")
 });
+
+//Check that no todos says You have no todos
+  // Check that Top Todo isn't rendered
+//Check that delete button works
+//Check that edit button renders form
+//Check that hitting go button updates task
